@@ -1,2 +1,2 @@
-# shelly
+# Shelly
 Shell project in C
