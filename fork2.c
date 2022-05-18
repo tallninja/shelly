@@ -2,15 +2,10 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-/**
- * main - creates a new child process identical to the parent
- * Return: 0
- */
-
 int main(void)
 {
 	pid_t my_pid;
-	pid_t child_pid = -11;
+	pid_t child_pid;
 
 	child_pid = fork();
 
@@ -22,8 +17,11 @@ int main(void)
 
 	my_pid = getpid();
 
-	printf("My PID: %u\n", my_pid);
-	printf("Child PID: %u\n\n", child_pid);
+	if (child_pid == 0)
+		printf("(%u) Noooooooo000!\n", my_pid);
+
+	else
+		printf("(%u) I'm your father...\n", my_pid);
 
 	return (0);
 }
