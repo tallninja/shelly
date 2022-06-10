@@ -1,111 +1,151 @@
-# Everything you need to know to start coding your own shell
+# 0x16. C - Simple Shell
 
-## PID & PPID
+## Concepts
+For this project, students are expected to look at this concepts:
+* [Everything you need to know to start coding your own shell](https://alx-intranet.hbtn.io/concepts/64)
+* [Approaching a Project](https://alx-intranet.hbtn.io/concepts/350)
 
-A process is an instance of an executing program, that has a unique process ID. This process ID is used by many functions and system calls to interact with and manipulate processes. In order to retrieve the current process’ ID, you can use the system call `getpid` (`man 2 getpid`):
+## Background Context
+Write a simple UNIX command interpreter.
 
-```text
-julien@ubuntu:~/c/shell$ cat pid.c
-#include <stdio.h>
-#include <unistd.h>
+## Resources
 
-/**
- * main - PID
- *
- * Return: Always 0.
- */
-int main(void)
-{
-    pid_t my_pid;
+#### Read or watch:
 
-    my_pid = getpid();
-    printf("%u\n", my_pid);
-    return (0);
-}
-julien@ubuntu:~/c/shell$ gcc -Wall -Werror -pedantic pid.c -o mypid && ./mypid
-3237
-julien@ubuntu:~/c/shell$ ./mypid 
-3238
-julien@ubuntu:~/c/shell$ ./mypid 
-3239
-julien@ubuntu:~/c/shell$
+- [Unix shell]()
+- [Thompson shell]()
+- [Ken Thompson]()
+- __Everything you need to know to start coding your own shell__ concept page
+
+#### man or help:
+* `sh` (*Run `sh` as well*)
+
+## Learning Objectives
+At the end of this project, you are expected to be able to [explain to anyone](), **without the help of Google:**
+
+### General
+* Who designed and implemented the original Unix operating system
+* Who wrote the first version of the UNIX shell
+* Who invented the B programming language(the direct predecessor to the C programming language)
+* Who is Ken Thompson
+* How does a shell work
+* What is a pid and a ppid
+* How to manipulate the environment of the current process
+* What is thte difference between the function and a system call
+* How to create processes
+* What are the three prototypes of `main`
+* How does shell use the `PATH` to find the programs
+* How to execute another program with the `execve` system call
+* How to suspend the execution of a process until one of its children terminates
+* What is `EOF` / "end-of-file"?
+
+## Requirements
+
+### General
+- Allowed editors: `vi`, `vim`, `emacs`
+- All your files will be compiled on Ubuntu 20.04 LTS using `gcc`, using the options `-Wall -Werror -Wextra -pedantic -std=gnu89`
+- All your files should end on a new line
+- A `README.md` file, at the root of the folder of the project is mandatory
+- Your code should use the `Betty` style. It will be checked using the [betty-style.pl]() and [betty-doc.pl]()
+- Your code should not have any memory leaks
+- No more than 5 functions per file
+- All your header files should be include guarded
+- Use system calls only when you need to ([why?](https://www.quora.com/Why-are-system-calls-expensive-in-operating-systems))
+- Write a `README` with the description of your project
+- You should have an `AUTHORS` file at the root of your repository, listing all individuals having contributed content to the repository. Format, see [Docker](https://github.com/moby/moby/blob/master/AUTHORS)
+
+### GitHub
+_\*There should be one project repository per group. If you and your partner have a repository with the same name in both your accounts, you risk a 0% score. Add your partner as a collaborator.*_
+
+## More Info
+
+### Output
+- Unless specified otherwise, your program **must have the exact same output** as `sh` (`/bin/sh`) as well as the exact same error output.
+- The only difference is when you print an error, the name of the program must be equivalent to your `argv[0]` (See below)
+
+Example of error with `sh`:
+
 ```
-Note in the example above, that every time you run the program, a new process is created, and its ID is different.
+$ echo "qwerty" | /bin/sh
+/bin/sh: 1: qwerty: not found
+$ echo "qwerty" | /bin/../bin/sh
+/bin/../bin/sh: 1: qwerty: not found
+$
+```
+same error output with your program `hsh`:
 
-Each process has a parent: the process that created it. It is possible to get the PID of a parent process by using the getppid system call (man 2 getppid), from within the child process.
-
-## Exercises
-
-### 0.av
-
-Write a program that prints all the arguments, without using ac.
-
-### 1. Read line
-
-Write a program that prints "$ ", wait for the user to enter a command, prints it on the next line.
-
-man 3 getline
-
-**important** make sure you read the man, and the RETURN VALUE section, in order to know when to stop reading Keyword: “end-of-file”, or EOF (or Ctrl+D).
-
-\#advanced: Write your own version of getline.
-
-```text
-julien@ubuntu:~/c/shell$ gcc -Wall -Wextra -Werror -pedantic prompt.c -o prompt
-julien@ubuntu:~/c/shell$ ./prompt 
-$ cat prompt.c
-cat prompt.c
-julien@ubuntu:~/c/shell$ 
+```
+$ echo "qwerty" | ./hsh
+./hsh: 1: qwerty: not found
+$ echo "qwerty" | ./././hsh
+./././hsh: 1: qwerty: not found
+$
 ```
 
-### 2. command line to av
+### List of allowed functions and system calls
+* `access` (man 2 access)
+* `chdir` (man 2 chdir)
+* `close` (man 2 close)
+* `closedir` (man 3 closedir)
+* `execve` (man 2 execve)
+* `exit` (man 3 exit)
+* `_exit` (man 2 _exit)
+* `fflush` (man 3 fflush)
+* `fork` (man 2 fork)
+* `free` (man 3 free)
+* `getcwd` (man 3 getcwd)
+* `getline` (man 3 getline)
+* `getpid` (man 2 getpid)
+* `isatty` (man 3 isatty)
+* `kill` (man 2 kill)
+* `malloc` (man 3 malloc)
+* `open` (man 2 open)
+* `opendir` (man 3 opendir)
+* `perror` (man 3 perror)
+* `read` (man 2 read)
+* `readdir` (man 3 readdir)
+* `signal` (man 2 signal)
+* `stat` (__xstat)(man 2 stat)
+* `lstat` (__lxstat)(man 2 lstat)
+* `fstat` (__fxstat)(man 2 fstat)
+* `strtok` (man 3 strtok)
+* `wait` (man 2 wait)
+* `waitpid` (man 2 waitpid)
+* `wait3` (man 2 wait3)
+* `wait4` (man 2 wait4)
+* `write` (man 2 write)
 
-Write a function that splits a string and returns an array of each word of the string.
+### Compilation
+Your shell will be compiled this way:
 
-man strtok
+~~~~~
+gcc -Wall -Werror -pedantic -std=gnu89 *.c -o hsh
+~~~~~
 
-\#advanced: Write the function without strtok
+### Testing
+Your shell should work like this in interactive mode:
 
-## Executing a program
+~~~~~
+$ ./hsh
+($) /bin/ls
+hsh main.c shell.c
+($)
+($) exit
+$
+~~~~~
 
-The system call execve allows a process to execute another program (man 2 execve). Note that this system call does load the new program into the current process’ memory in place of the “previous” program: on success execve does not return to continue the rest of the “previous” program.
+But also in non-nteractive mode:
 
-```text
-julien@ubuntu:~/c/shell$ cat exec.c
-#include <stdio.h>
-#include <unistd.h>
-
-/**
- * main - execve example
- *
- * Return: Always 0.
- */
-int main(void)
-{
-    char *argv[] = {"/bin/ls", "-l", "/usr/", NULL};
-
-    printf("Before execve\n");
-    if (execve(argv[0], argv, NULL) == -1)
-    {
-        perror("Error:");
-    }
-    printf("After execve\n");
-    return (0);
-}
-julien@ubuntu:~/c/shell$ gcc -Wall -Wextra -Werror -pedantic exec.c -o exec
-julien@ubuntu:~/c/shell$ ./exec 
-Before execve
-total 120
-drwxr-xr-x   2 root root 61440 Dec  4 00:08 bin
-drwxr-xr-x   2 root root  4096 Jul 19 13:47 games
-drwxr-xr-x  58 root root  4096 Oct 27 13:10 include
-drwxr-xr-x 138 root root  4096 Dec  4 00:08 lib
-drwxr-xr-x   3 root root  4096 Nov 10 09:54 lib32
-drwxr-xr-x   3 root root  4096 Nov 10 09:54 libx32
-drwxr-xr-x  10 root root  4096 Jul 19 13:42 local
-drwxr-xr-x   3 root root  4096 Jul 19 13:48 locale
-drwxr-xr-x   2 root root 12288 Dec  2 11:03 sbin
-drwxr-xr-x 295 root root 12288 Jul 27 08:58 share
-drwxr-xr-x   6 root root  4096 Dec  1 11:39 src
-julien@ubuntu:~/c/shell$ 
-```
+~~~~~
+$ echo "/bin/ls" | ./hsh
+hsh main.c shell.c test_ls_2
+$
+$ cat test_ls_2
+/bin/ls
+/bin/ls
+$
+$ cat test_ls_2 | ./hsh
+hsh main.c shell.c test_ls_2
+hsh main.c shell.c test_ls_2
+$
+~~~~~
